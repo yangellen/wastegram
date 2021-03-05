@@ -1,4 +1,5 @@
 # Miscellaneous
+*.plist
 *.class
 *.log
 *.pyc
