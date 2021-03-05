@@ -8,11 +8,13 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  int totalWaste = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wastegram'),
+        title: Text('Wastegram - $totalWaste'),
         centerTitle: true,
       ),
       body: StreamBuilder(
@@ -21,10 +23,12 @@ class _ListScreenState extends State<ListScreen> {
           if (snapshots.hasData &&
               snapshots.data.documents != 0 &&
               snapshots.data.documents.length > 0) {
+            totalWaste = 0;
             return ListView.builder(
                 itemCount: snapshots.data.documents.length,
                 itemBuilder: (context, index) {
                   var post = snapshots.data.documents[index];
+                  totalWaste += post['quantity'];
                   return ListTile(
                     leading: Text(post['date']),
                     trailing: Text(post['quantity'].toString()),
