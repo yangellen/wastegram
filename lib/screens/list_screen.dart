@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wastegram/screens/create_post.dart';
 import 'package:wastegram/screens/detail_screen.dart';
 
 class ListScreen extends StatefulWidget {
@@ -52,10 +53,15 @@ class _ListScreenState extends State<ListScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => pickPictureThenCreatePost(),
           tooltip: 'Create New Post',
           child: const Icon(Icons.camera_alt)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  void pickPictureThenCreatePost() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => CreatePost()));
   }
 }
