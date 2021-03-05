@@ -51,6 +51,11 @@ class _ListScreenState extends State<ListScreen> {
           }
         },
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          tooltip: 'Create New Post',
+          child: const Icon(Icons.camera_alt)),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
