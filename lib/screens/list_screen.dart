@@ -10,18 +10,18 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-      builder: (context, snapshots) {
-        if (snapshots.hasData &&
-            snapshots.data.documents != 0 &&
-            snapshots.data.documents.length > 0) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Wastegram'),
-              centerTitle: true,
-            ),
-            body: ListView.builder(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Wastegram'),
+        centerTitle: true,
+      ),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: (context, snapshots) {
+          if (snapshots.hasData &&
+              snapshots.data.documents != 0 &&
+              snapshots.data.documents.length > 0) {
+            return ListView.builder(
                 itemCount: snapshots.data.documents.length,
                 itemBuilder: (context, index) {
                   var post = snapshots.data.documents[index];
@@ -39,20 +39,14 @@ class _ListScreenState extends State<ListScreen> {
                               )));
                     },
                   );
-                }),
-          );
-        } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Wastegram'),
-              centerTitle: true,
-            ),
-            body: Center(
+                });
+          } else {
+            return Center(
               child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
+            );
+          }
+        },
+      ),
     );
   }
 }
