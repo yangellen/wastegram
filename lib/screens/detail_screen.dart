@@ -5,14 +5,10 @@ class DetialScreen extends StatelessWidget {
   final imageUrl;
   final quantity;
   final latitude;
-  final longtitude;
+  final longitude;
 
   DetialScreen(
-      {this.date,
-      this.imageUrl,
-      this.quantity,
-      this.latitude,
-      this.longtitude});
+      {this.date, this.imageUrl, this.quantity, this.latitude, this.longitude});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +42,7 @@ class DetialScreen extends StatelessWidget {
         ),
         Container(
           child: Center(
-            child: Text('Location: ($latitude, $longtitude'),
+            child: Text('Location: ($latitude, $longitude)'),
           ),
         ),
       ],

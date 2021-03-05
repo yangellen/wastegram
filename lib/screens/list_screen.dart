@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wastegram/screens/detail_screen.dart';
 
 class ListScreen extends StatefulWidget {
   @override
@@ -27,6 +28,16 @@ class _ListScreenState extends State<ListScreen> {
                   return ListTile(
                     leading: Text(post['date']),
                     trailing: Text(post['quantity'].toString()),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetialScreen(
+                                date: post['date'],
+                                imageUrl: post['imageUrl'],
+                                quantity: post['quantity'].toString(),
+                                latitude: post['latitude'].toString(),
+                                longitude: post['longitude'].toString(),
+                              )));
+                    },
                   );
                 }),
           );
