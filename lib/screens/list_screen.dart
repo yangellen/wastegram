@@ -25,7 +25,8 @@ class _ListScreenState extends State<ListScreen> {
                 itemBuilder: (context, index) {
                   var post = snapshots.data.documents[index];
                   return ListTile(
-                    title: Text(post['quantity'].toString()),
+                    leading: Text(post['date']),
+                    trailing: Text(post['quantity'].toString()),
                   );
                 }),
           );
