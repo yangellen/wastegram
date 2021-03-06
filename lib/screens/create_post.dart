@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path/path.dart' as Path;
 import 'package:flutter/material.dart';
 import 'package:wastegram/model/food_waste_post.dart';
 import 'package:wastegram/screens/list_screen.dart';
@@ -14,12 +17,20 @@ class _CreatePostState extends State<CreatePost> {
   final newPost = FoodWastePost(); //use to collect data
 
   File image;
+  String imageUrl;
 
   final picker = ImagePicker();
 
   void getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     image = File(pickedFile.path);
+
+    //upload image to firebase cloud storage
+    StorageReference storageReference =
+        FirebaseStorage.instance.ref().child(Path.basename(image.path));
+    StorageUploadTask uploadTask = storageReference.putFile(image);
+    await uploadTask.onComplete;
+    imageUrl = await storageReference.getDownloadURL();
     setState(() {});
   }
 
