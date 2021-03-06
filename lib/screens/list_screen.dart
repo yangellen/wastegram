@@ -9,29 +9,28 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  var totalWaste = 0;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: totalWaste > 0
-            ? Text('Wastegram - $totalWaste')
-            : Text('Wastegram'),
-        centerTitle: true,
-      ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-        builder: (context, snapshots) {
-          if (snapshots.hasData &&
-              snapshots.data.documents != 0 &&
-              snapshots.data.documents.length > 0) {
-            totalWaste = 0;
-            return ListView.builder(
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+      builder: (context, snapshots) {
+        if (snapshots.hasData &&
+            snapshots.data.documents != 0 &&
+            snapshots.data.documents.length > 0) {
+          var totalWaste = 0;
+          for (var doc in snapshots.data.documents) {
+            totalWaste += doc['quantity'];
+          }
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('Wastegram - $totalWaste'),
+              centerTitle: true,
+            ),
+            body: ListView.builder(
                 itemCount: snapshots.data.documents.length,
                 itemBuilder: (context, index) {
                   var post = snapshots.data.documents[index];
-                  totalWaste += post['quantity'];
                   return ListTile(
                     leading: Text(post['date']),
                     trailing: Text(post['quantity'].toString()),
@@ -46,24 +45,74 @@ class _ListScreenState extends State<ListScreen> {
                               )));
                     },
                   );
-                });
-          } else {
-            return Center(
+                }),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () => moveToCreatePost(),
+                tooltip: 'Create New Post',
+                child: const Icon(Icons.camera_alt)),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('Wastegram'),
+              centerTitle: true,
+            ),
+            body: Center(
               child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => moveToCreatePost(),
-          tooltip: 'Create New Post',
-          child: const Icon(Icons.camera_alt)),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            ),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () => moveToCreatePost(),
+                tooltip: 'Create New Post',
+                child: const Icon(Icons.camera_alt)),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
+        }
+      },
     );
-  }
+  } //build
 
   void moveToCreatePost() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => CreatePost()));
   }
 }
+
+// Scaffold(
+
+//       body: StreamBuilder(
+//         stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+//         builder: (context, snapshots) {
+//           if (snapshots.hasData &&
+//               snapshots.data.documents != 0 &&
+//               snapshots.data.documents.length > 0) {
+//             totalWaste = 0;
+//             return ListView.builder(
+//                 itemCount: snapshots.data.documents.length,
+//                 itemBuilder: (context, index) {
+//                   var post = snapshots.data.documents[index];
+//                   totalWaste += post['quantity'];
+//                   return ListTile(
+//                     leading: Text(post['date']),
+//                     trailing: Text(post['quantity'].toString()),
+//                     onTap: () {
+//                       Navigator.of(context).push(MaterialPageRoute(
+//                           builder: (context) => DetialScreen(
+//                                 date: post['date'],
+//                                 imageUrl: post['imageUrl'],
+//                                 quantity: post['quantity'].toString(),
+//                                 latitude: post['latitude'].toString(),
+//                                 longitude: post['longitude'].toString(),
+//                               )));
+//                     },
+//                   );
+//                 });
+//           } else {
+//             return Center(
+//               child: CircularProgressIndicator(),
+//             );
+//           }
+//         },
+//       ),
