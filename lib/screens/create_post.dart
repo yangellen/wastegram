@@ -15,25 +15,13 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+  //variable for form
   final formKey = GlobalKey<FormState>(); //Global key
   final newPost = FoodWastePost(); //use to collect data
 
+  //varialbe for image
   File image;
-
   final picker = ImagePicker();
-
-  void getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    image = File(pickedFile.path);
-
-    //upload image to firebase cloud storage
-    StorageReference storageReference =
-        FirebaseStorage.instance.ref().child(Path.basename(image.path));
-    StorageUploadTask uploadTask = storageReference.putFile(image);
-    await uploadTask.onComplete;
-    newPost.imageUrl = await storageReference.getDownloadURL();
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +52,21 @@ class _CreatePostState extends State<CreatePost> {
     }
   }
 
+  //take picture and uploade in firebase storeage and save the url
+  void getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    image = File(pickedFile.path);
+
+    //upload image to firebase cloud storage
+    StorageReference storageReference =
+        FirebaseStorage.instance.ref().child(Path.basename(image.path));
+    StorageUploadTask uploadTask = storageReference.putFile(image);
+    await uploadTask.onComplete;
+    newPost.imageUrl = await storageReference.getDownloadURL();
+    setState(() {});
+  }
+
+  //text form to get user input
   Widget createTextField() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -99,7 +102,6 @@ class _CreatePostState extends State<CreatePost> {
       //add date
       addFormateDate();
 
-      //print
       // print('date : ${newPost.date}');
       // print('url : ${newPost.imageUrl}');
       // print('quantity : ${newPost.quantity}');
