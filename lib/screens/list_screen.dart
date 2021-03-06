@@ -12,7 +12,10 @@ class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('posts')
+          .orderBy('date', descending: true)
+          .snapshots(),
       builder: (context, snapshots) {
         if (snapshots.hasData &&
             snapshots.data.documents != 0 &&
