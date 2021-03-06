@@ -9,13 +9,15 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  int totalWaste = 0;
+  var totalWaste = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wastegram - $totalWaste'),
+        title: totalWaste > 0
+            ? Text('Wastegram - $totalWaste')
+            : Text('Wastegram'),
         centerTitle: true,
       ),
       body: StreamBuilder(
@@ -53,14 +55,14 @@ class _ListScreenState extends State<ListScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () => pickPictureThenCreatePost(),
+          onPressed: () => moveToCreatePost(),
           tooltip: 'Create New Post',
           child: const Icon(Icons.camera_alt)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  void pickPictureThenCreatePost() {
+  void moveToCreatePost() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => CreatePost()));
   }
