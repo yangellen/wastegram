@@ -3,9 +3,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:path/path.dart' as Path;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:wastegram/model/food_waste_post.dart';
 import 'package:wastegram/screens/list_screen.dart';
 
@@ -22,6 +25,10 @@ class _CreatePostState extends State<CreatePost> {
   //varialbe for image
   File image;
   final picker = ImagePicker();
+
+  //vaiable used for location
+  LocationData locationData;
+  var locationService = Location();
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +109,45 @@ class _CreatePostState extends State<CreatePost> {
       //add date
       addFormateDate();
 
-      // print('date : ${newPost.date}');
-      // print('url : ${newPost.imageUrl}');
-      // print('quantity : ${newPost.quantity}');
       //Add location
+      try {
+        var _serviceEnabled = await locationService.serviceEnabled();
+        if (!_serviceEnabled) {
+          _serviceEnabled = await locationService.requestService();
+          if (!_serviceEnabled) {
+            print('Failed to enable service. Returning.');
+            return;
+          }
+        }
+
+        var _permissionGranted = await locationService.hasPermission();
+        if (_permissionGranted == PermissionStatus.denied) {
+          _permissionGranted = await locationService.requestPermission();
+          if (_permissionGranted != PermissionStatus.granted) {
+            print('Location service permission not granted. Returning.');
+          }
+        }
+
+        locationData = await locationService.getLocation();
+      } on PlatformException catch (e) {
+        print('Error: ${e.toString()}, code: ${e.code}');
+        locationData = null;
+      }
+      locationData = await locationService.getLocation();
+
+      //store in FoodWastePost object
+      newPost.latitude = locationData.latitude;
+      newPost.longitude = locationData.longitude;
+
       //upload
+      FirebaseFirestore.instance.collection('posts').add({
+        'date': newPost.date,
+        'imageUrl': newPost.imageUrl,
+        'latitude': newPost.latitude,
+        'longitude': newPost.longitude,
+        'quantity': newPost.quantity
+      });
+
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => ListScreen()));
     }
