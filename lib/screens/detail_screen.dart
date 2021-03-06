@@ -32,7 +32,7 @@ class DetialScreen extends StatelessWidget {
         ),
         Container(
           child: Center(
-            child: Text(imageUrl),
+            child: Image(image: NetworkImage('$imageUrl')),
           ),
         ),
         Container(
