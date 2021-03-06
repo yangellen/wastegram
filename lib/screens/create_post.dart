@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as Path;
+
 import 'package:flutter/material.dart';
 import 'package:wastegram/model/food_waste_post.dart';
 import 'package:wastegram/screens/list_screen.dart';
@@ -95,11 +97,23 @@ class _CreatePostState extends State<CreatePost> {
       formKey.currentState.save(); //if the form is  valid, save data
 
       //add date
-      //add URL
+      addFormateDate();
+
+      //print
+      // print('date : ${newPost.date}');
+      // print('url : ${newPost.imageUrl}');
+      // print('quantity : ${newPost.quantity}');
       //Add location
       //upload
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => ListScreen()));
     }
+  }
+
+  //add and formate datetime
+  void addFormateDate() {
+    final date = DateTime.now();
+    final DateFormat formatter = DateFormat.yMMMMEEEEd('en-us');
+    newPost.date = formatter.format(date);
   }
 }
