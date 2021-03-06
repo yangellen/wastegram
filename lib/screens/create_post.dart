@@ -17,7 +17,6 @@ class _CreatePostState extends State<CreatePost> {
   final newPost = FoodWastePost(); //use to collect data
 
   File image;
-  String imageUrl;
 
   final picker = ImagePicker();
 
@@ -30,7 +29,7 @@ class _CreatePostState extends State<CreatePost> {
         FirebaseStorage.instance.ref().child(Path.basename(image.path));
     StorageUploadTask uploadTask = storageReference.putFile(image);
     await uploadTask.onComplete;
-    imageUrl = await storageReference.getDownloadURL();
+    newPost.imageUrl = await storageReference.getDownloadURL();
     setState(() {});
   }
 
@@ -79,7 +78,7 @@ class _CreatePostState extends State<CreatePost> {
 
   //save user input
   void saveUserInput(String userInput) {
-    //to work on this
+    newPost.quantity = int.parse(userInput);
   }
 
   //function to validate form
