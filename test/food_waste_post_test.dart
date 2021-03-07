@@ -11,6 +11,14 @@ void main() {
 
   final newPost = FoodWastePost();
 
+  test('FoodWastePost object have null value before setting', () {
+    expect(newPost.date, null);
+    expect(newPost.imageUrl, null);
+    expect(newPost.quantity, null);
+    expect(newPost.latitude, null);
+    expect(newPost.longitude, null);
+  });
+
   test('FoodWastePost constructor have appropriate property value', () {
     newPost.date = date;
     newPost.imageUrl = imageUrl;
