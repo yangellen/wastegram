@@ -25,29 +25,47 @@ class DetialScreen extends StatelessWidget {
   Widget displayDetail() {
     return ListView(
       children: [
-        Container(
-          child: Center(
-            child: Text(date),
-          ),
-        ),
-        Container(
-          child: Center(
-            child: Image(
-              image: NetworkImage('$imageUrl'),
-              loadingBuilder: (context, child, progress) {
-                return progress == null ? child : CircularProgressIndicator();
-              },
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Container(
+            child: Center(
+              child: Text(
+                date,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),
-        Container(
-          child: Center(
-            child: Text('$quantity items'),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Container(
+            child: Center(
+              child: Image(
+                image: NetworkImage('$imageUrl'),
+                loadingBuilder: (context, child, progress) {
+                  return progress == null ? child : CircularProgressIndicator();
+                },
+                height: 400,
+              ),
+            ),
           ),
         ),
-        Container(
-          child: Center(
-            child: Text('Location: ($latitude, $longitude)'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Center(
+              child: Text('$quantity items',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Center(
+              child: Text('Location: ($latitude, $longitude)',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
           ),
         ),
       ],
