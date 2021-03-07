@@ -47,7 +47,13 @@ class _CreatePostState extends State<CreatePost> {
             key: formKey,
             child: SingleChildScrollView(
               child: Column(children: [
-                Image.file(image),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                      child: Image.file(
+                    image,
+                  )),
+                ),
                 createTextField(),
                 ElevatedButton.icon(
                     onPressed: () => validateAndUpload(),
@@ -78,6 +84,7 @@ class _CreatePostState extends State<CreatePost> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         keyboardType: TextInputType.number,
         autofocus: true,
         decoration: InputDecoration(
