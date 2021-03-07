@@ -32,7 +32,12 @@ class DetialScreen extends StatelessWidget {
         ),
         Container(
           child: Center(
-            child: Image(image: NetworkImage('$imageUrl')),
+            child: Image(
+              image: NetworkImage('$imageUrl'),
+              loadingBuilder: (context, child, progress) {
+                return progress == null ? child : CircularProgressIndicator();
+              },
+            ),
           ),
         ),
         Container(
