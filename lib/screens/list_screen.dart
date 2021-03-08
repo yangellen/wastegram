@@ -25,60 +25,69 @@ class _ListScreenState extends State<ListScreen> {
             totalWaste += doc['quantity'];
           }
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Wastegram - $totalWaste'),
-              centerTitle: true,
-            ),
-            body: ListView.builder(
-                itemCount: snapshots.data.documents.length,
-                itemBuilder: (context, index) {
-                  var post = snapshots.data.documents[index];
-                  return ListTile(
-                    leading: Text(post['date']),
-                    trailing: Text(post['quantity'].toString()),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DetialScreen(
-                                date: post['date'],
-                                imageUrl: post['imageUrl'],
-                                quantity: post['quantity'].toString(),
-                                latitude: post['latitude'].toString(),
-                                longitude: post['longitude'].toString(),
-                              )));
-                    },
-                  );
-                }),
-            floatingActionButton: FloatingActionButton(
-                onPressed: () => moveToCreatePost(),
-                tooltip: 'Create New Post',
-                child: const Icon(Icons.camera_alt)),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-          );
+          return generalWidget(
+              'Wastegram - $totalWaste', postWidget(snapshots));
         } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Wastegram'),
-              centerTitle: true,
-            ),
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-            floatingActionButton: FloatingActionButton(
-                onPressed: () => moveToCreatePost(),
-                tooltip: 'Create New Post',
-                child: const Icon(Icons.camera_alt)),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-          );
+          return generalWidget("Wastegram", progressWidget());
         }
       },
     );
   } //build
 
+  //take user to create post when click on camera icon
   void moveToCreatePost() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => CreatePost()));
+  }
+
+  //widget to indicate there is no post
+  Widget progressWidget() {
+    return Center(
+      child: Column(
+        children: [
+          CircularProgressIndicator(),
+          Text('No post yet, click to create new post')
+        ],
+      ),
+    );
+  }
+
+  //widget that return list of posts
+  Widget postWidget(var snapshots) {
+    return ListView.builder(
+        itemCount: snapshots.data.documents.length,
+        itemBuilder: (context, index) {
+          var post = snapshots.data.documents[index];
+          return ListTile(
+            leading: Text(post['date']),
+            trailing: Text(post['quantity'].toString()),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => DetialScreen(
+                        date: post['date'],
+                        imageUrl: post['imageUrl'],
+                        quantity: post['quantity'].toString(),
+                        latitude: post['latitude'].toString(),
+                        longitude: post['longitude'].toString(),
+                      )));
+            },
+          );
+        });
+  }
+
+  //general scaffold widget that will take tilte and body as parameter
+  Widget generalWidget(String title, Widget body) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        centerTitle: true,
+      ),
+      body: body,
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => moveToCreatePost(),
+          tooltip: 'Create New Post',
+          child: const Icon(Icons.camera_alt)),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }
