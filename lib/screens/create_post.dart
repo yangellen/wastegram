@@ -57,7 +57,10 @@ class _CreatePostState extends State<CreatePost> {
                 createTextField(),
                 ElevatedButton.icon(
                     onPressed: () => validateAndUpload(),
-                    icon: Icon(Icons.cloud_upload),
+                    style: ElevatedButton.styleFrom(primary: Colors.indigo),
+                    icon: Icon(
+                      Icons.cloud_upload,
+                    ),
                     label: Text("Submit Post"))
               ]),
             )),

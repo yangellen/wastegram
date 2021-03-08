@@ -84,9 +84,10 @@ class _ListScreenState extends State<ListScreen> {
       ),
       body: body,
       floatingActionButton: FloatingActionButton(
-          onPressed: () => moveToCreatePost(),
-          tooltip: 'Create New Post',
-          child: const Icon(Icons.camera_alt)),
+        onPressed: () => moveToCreatePost(),
+        tooltip: 'Create New Post',
+        child: const Icon(Icons.camera_alt, color: Colors.white),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

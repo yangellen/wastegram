@@ -6,6 +6,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Wastegram",
+      theme: ThemeData(
+          primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
       home: ListScreen(),
     );
   }
