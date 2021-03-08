@@ -43,17 +43,21 @@ class _ListScreenState extends State<ListScreen> {
 
   //widget to indicate there is no post
   Widget progressWidget() {
-    return Center(
-      child: Semantics(
+    return Semantics(
+      child: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 38.0),
+              child: CircularProgressIndicator(),
+            ),
             Text('No post yet, click to create new post')
           ],
         ),
-        label: 'Loading Progress Indicator, No post yet',
-        readOnly: true,
       ),
+      label: 'Loading Progress Indicator, No post yet',
+      readOnly: true,
     );
   }
 
