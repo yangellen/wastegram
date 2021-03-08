@@ -7,7 +7,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "Wastegram",
       theme: ThemeData(
-          primaryColor: Colors.indigo[300], accentColor: Colors.indigo[300]),
+          primaryColor: Colors.indigo[300],
+          accentColor: Colors.indigo[300],
+          scaffoldBackgroundColor: Colors.indigo,
+          hintColor: Colors.indigo[50],
+          textTheme: TextTheme(bodyText2: TextStyle(color: Colors.white))),
       home: ListScreen(),
     );
   }

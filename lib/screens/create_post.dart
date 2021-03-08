@@ -57,7 +57,8 @@ class _CreatePostState extends State<CreatePost> {
                 createTextField(),
                 ElevatedButton.icon(
                     onPressed: () => validateAndUpload(),
-                    style: ElevatedButton.styleFrom(primary: Colors.indigo),
+                    style:
+                        ElevatedButton.styleFrom(primary: Colors.indigo[300]),
                     icon: Icon(
                       Icons.cloud_upload,
                     ),
@@ -87,11 +88,15 @@ class _CreatePostState extends State<CreatePost> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         keyboardType: TextInputType.number,
         autofocus: true,
         decoration: InputDecoration(
-            labelText: "Number of wasted item", border: OutlineInputBorder()),
+          labelText: "Number of wasted item",
+          labelStyle: TextStyle(color: Colors.white),
+          border: OutlineInputBorder(),
+        ),
         onSaved: (value) => saveUserInput(value),
         validator: (value) => validateInput(value),
       ),
