@@ -25,50 +25,54 @@ class DetialScreen extends StatelessWidget {
   Widget displayDetail() {
     return ListView(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Container(
-            child: Center(
-              child: Text(
-                date,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Container(
-            child: Center(
-              child: Image(
-                image: NetworkImage('$imageUrl'),
-                loadingBuilder: (context, child, progress) {
-                  return progress == null ? child : CircularProgressIndicator();
-                },
-                height: 400,
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Center(
-              child: Text('$quantity items',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Center(
-              child: Text('Location: ($latitude, $longitude)',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-          ),
-        ),
+        textContainer(date, 12.0),
+        imageContainer(),
+        textContainer('$quantity items', 8.0),
+        textContainer('Location: ($latitude, $longitude)', 8.0),
       ],
+    );
+  }
+
+  //create container with image of waste item
+  Widget imageContainer() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Container(
+        child: Center(
+          child: Semantics(
+            label: 'Image of the waste item',
+            image: true,
+            readOnly: true,
+            child: Image(
+              image: NetworkImage('$imageUrl'),
+              loadingBuilder: (context, child, progress) {
+                return progress == null
+                    ? child
+                    : Semantics(
+                        label: 'Loading picture',
+                        child: CircularProgressIndicator());
+              },
+              height: 400,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  //create container with text
+  Widget textContainer(String text, double padding) {
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: Container(
+        child: Center(
+          child: Semantics(
+            label: text,
+            readOnly: true,
+            child: Text(text, style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ),
     );
   }
 }
