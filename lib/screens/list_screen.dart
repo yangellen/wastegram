@@ -83,12 +83,16 @@ class _ListScreenState extends State<ListScreen> {
         centerTitle: true,
       ),
       body: body,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => moveToCreatePost(),
-        tooltip: 'Create New Post',
-        child: const Icon(Icons.camera_alt, color: Colors.white),
-      ),
+      floatingActionButton: cameraButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Widget cameraButton() {
+    return FloatingActionButton(
+      onPressed: () => moveToCreatePost(),
+      tooltip: 'Create New Post',
+      child: const Icon(Icons.camera_alt, color: Colors.white),
     );
   }
 }
