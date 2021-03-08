@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wastegram/model/food_waste_post.dart';
 import 'package:wastegram/screens/create_post.dart';
 import 'package:wastegram/screens/detail_screen.dart';
 
@@ -62,6 +63,13 @@ class _ListScreenState extends State<ListScreen> {
         itemCount: snapshots.data.documents.length,
         itemBuilder: (context, index) {
           var post = snapshots.data.documents[index];
+          FoodWastePost postObj = FoodWastePost();
+          postObj.date = post['date'];
+          postObj.imageUrl = post['imageUrl'];
+          postObj.quantity = post['quantity'];
+          postObj.latitude = post['latitude'];
+          postObj.longitude = post['longitude'];
+
           return ListTile(
             leading: Semantics(
               child: Text(post['date']),
@@ -75,11 +83,7 @@ class _ListScreenState extends State<ListScreen> {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => DetialScreen(
-                        date: post['date'],
-                        imageUrl: post['imageUrl'],
-                        quantity: post['quantity'].toString(),
-                        latitude: post['latitude'].toString(),
-                        longitude: post['longitude'].toString(),
+                        post: postObj,
                       )));
             },
           );

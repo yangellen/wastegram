@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wastegram/model/food_waste_post.dart';
 
 class DetialScreen extends StatelessWidget {
-  final date;
-  final imageUrl;
-  final quantity;
-  final latitude;
-  final longitude;
+  final FoodWastePost post;
 
-  DetialScreen(
-      {this.date, this.imageUrl, this.quantity, this.latitude, this.longitude});
+  DetialScreen({this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +21,12 @@ class DetialScreen extends StatelessWidget {
   Widget displayDetail() {
     return ListView(
       children: [
-        textContainer(date, 12.0),
+        textContainer(post.date, 12.0),
         imageContainer(),
-        textContainer('$quantity items', 8.0),
-        textContainer('Location: ($latitude, $longitude)', 8.0),
+        textContainer('${post.quantity.toString()} items', 8.0),
+        textContainer(
+            'Location: (${post.latitude.toString()}, ${post.longitude.toString()})',
+            8.0),
       ],
     );
   }
@@ -44,7 +42,7 @@ class DetialScreen extends StatelessWidget {
             image: true,
             readOnly: true,
             child: Image(
-              image: NetworkImage('$imageUrl'),
+              image: NetworkImage('${post.imageUrl}'),
               loadingBuilder: (context, child, progress) {
                 return progress == null
                     ? child
