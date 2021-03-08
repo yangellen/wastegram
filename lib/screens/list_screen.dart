@@ -43,11 +43,15 @@ class _ListScreenState extends State<ListScreen> {
   //widget to indicate there is no post
   Widget progressWidget() {
     return Center(
-      child: Column(
-        children: [
-          CircularProgressIndicator(),
-          Text('No post yet, click to create new post')
-        ],
+      child: Semantics(
+        child: Column(
+          children: [
+            CircularProgressIndicator(),
+            Text('No post yet, click to create new post')
+          ],
+        ),
+        label: 'Loading Progress Indicator, No post yet',
+        readOnly: true,
       ),
     );
   }
@@ -59,8 +63,15 @@ class _ListScreenState extends State<ListScreen> {
         itemBuilder: (context, index) {
           var post = snapshots.data.documents[index];
           return ListTile(
-            leading: Text(post['date']),
-            trailing: Text(post['quantity'].toString()),
+            leading: Semantics(
+              child: Text(post['date']),
+              label: 'Date : ${post['date']}',
+              onTapHint: 'Take user to post detail',
+            ),
+            trailing: Semantics(
+                child: Text(post['quantity'].toString()),
+                label: 'Quantity : ${post['quantity'].toString()}',
+                onTapHint: 'Take user to post detail'),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => DetialScreen(
@@ -83,11 +94,18 @@ class _ListScreenState extends State<ListScreen> {
         centerTitle: true,
       ),
       body: body,
-      floatingActionButton: cameraButton(),
+      floatingActionButton: Semantics(
+        child: cameraButton(),
+        button: true,
+        enabled: true,
+        label: 'A button to take a picture of the waste item',
+        onTapHint: 'Take a picture of the waste item',
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
+  //button allow users to take pictue and tkae user to post form when pressed
   Widget cameraButton() {
     return FloatingActionButton(
       onPressed: () => moveToCreatePost(),
