@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:wastegram/model/food_waste_post.dart';
 import 'package:wastegram/screens/create_post.dart';
 import 'package:wastegram/screens/detail_screen.dart';

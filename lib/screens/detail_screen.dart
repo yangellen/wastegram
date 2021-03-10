@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:wastegram/model/food_waste_post.dart';
 
 class DetialScreen extends StatelessWidget {
