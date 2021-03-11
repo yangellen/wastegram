@@ -65,6 +65,7 @@ class _ListScreenState extends State<ListScreen> {
   //widget that return list of posts
   Widget postWidget(var snapshots) {
     return ListView.builder(
+        key: Key('post_list'), // use for integration test
         itemCount: snapshots.data.documents.length,
         itemBuilder: (context, index) {
           var post = snapshots.data.documents[index];
@@ -77,7 +78,10 @@ class _ListScreenState extends State<ListScreen> {
 
           return ListTile(
             leading: Semantics(
-              child: Text(post['date']),
+              child: Text(
+                post['date'],
+                key: Key('item_${index}_text'),
+              ),
               label: 'Date : ${post['date']}',
               onTapHint: 'Take user to post detail',
             ),
