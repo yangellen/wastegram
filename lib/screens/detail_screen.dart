@@ -5,7 +5,7 @@ import 'package:wastegram/model/food_waste_post.dart';
 class DetialScreen extends StatelessWidget {
   final FoodWastePost post;
 
-  DetialScreen({this.post});
+  const DetialScreen({Key key, this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

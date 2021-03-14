@@ -8,7 +8,7 @@ import 'package:wastegram/screens/create_post.dart';
 import 'package:wastegram/screens/detail_screen.dart';
 
 class ListScreen extends StatefulWidget {
-  ListScreen({Key key, this.analytics, this.observer}) : super(key: key);
+  const ListScreen({Key key, this.analytics, this.observer}) : super(key: key);
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
